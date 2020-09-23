@@ -251,6 +251,29 @@ router.post('/todu/move_tasks', async function(req, res, next) {
   });
 });
 
+// GET: /todu/review_lists
+router.get('/todu/review_lists', async function(req, res, next) {
+  pool.query(`
+    SELECT
+      list_id,
+      list_title
+    FROM
+      todu_lists
+    ORDER BY
+      list_id ASC
+  `)
+  .catch((err) => {
+    console.log(err);
+    res.send({ status: 1 })
+  })
+  .then((rows, _) => {
+    res.send({
+      status: 0,
+      listHeaders: rows[0]
+    });
+  });
+});
+
 
 
 module.exports = router;
